@@ -1,0 +1,39 @@
+			// if x == 40 && y == 40 {
+			// 	EnableLogging()
+			// } else {
+			// 	DisableLogging()
+			// }
+
+			// go EmitRay(x, y)
+			// c := res.color.toDrawingColor()
+
+			// i.SetRGBA(x, y, color.RGBA{uint8(c.r), uint8(c.g), uint8(c.b), 255})
+
+			// ray = Ray{scene.camera.position, getPoint(float64(x), float64(y), scene.camera)}
+			// Log("Scene.Camera: ", scene.camera)
+			// Log("X:", x, " Y:", y)
+			// Log("Ray: ", ray.start, ray.direction)
+			// Log("Float color : ", c)
+			// Log("UINT color : ", c2)
+
+
+
+// writer, err := os.Create("test.png")
+// if err != nil {
+// 	fmt.Println("Failed open file.")
+// 	return
+// }
+// defer writer.Close()
+
+// b := buffer.Bounds()
+// for y := b.Min.Y; y < b.Max.Y; y++ {
+// 	for x := b.Min.X; x < b.Max.X; x++ {
+// 		var r, g, b, a uint8 = 123, 123, 123, 123
+// 		buffer.Set(x, y, color.RGBA{r, g, b, a})
+// 	}
+// }
+
+// i := buffer.SubImage(buffer.Bounds())
+// fmt.Println(buffer.Bounds())
+// png.Encode(writer, i)
+// }

@@ -1,0 +1,20 @@
+
+// writer, err := os.Create("test.png")
+// if err != nil {
+// 	fmt.Println("Failed open file.")
+// 	return
+// }
+// defer writer.Close()
+
+// b := buffer.Bounds()
+// for y := b.Min.Y; y < b.Max.Y; y++ {
+// 	for x := b.Min.X; x < b.Max.X; x++ {
+// 		var r, g, b, a uint8 = 123, 123, 123, 123
+// 		buffer.Set(x, y, color.RGBA{r, g, b, a})
+// 	}
+// }
+
+// i := buffer.SubImage(buffer.Bounds())
+// fmt.Println(buffer.Bounds())
+// png.Encode(writer, i)
+// }
