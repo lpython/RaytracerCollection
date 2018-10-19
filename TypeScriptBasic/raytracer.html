@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <title>Raytracer</title>
+    <style>
+        .card {
+            padding: 15px;
+            margin: 15px;
+            border: solid black 2px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="ray" width="512" height="512"></canvas>
+
+    <br>
+    <div class="card">
+        <p>Resolution:</p>
+        <select id="res">
+            <option value="128">128</option>
+            <option value="256">256</option>
+            <option value="384">384</option>
+            <option value="512">512</option>
+        </select>
+
+        <div>
+            <p id="stopwatch"></p>
+        </div>
+    </div>
+
+    <script type="module" src="out/app.js"></script>
+</body>
+
+</html>
