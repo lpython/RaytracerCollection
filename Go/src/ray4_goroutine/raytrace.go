@@ -6,6 +6,8 @@ import (
 	"image/color"
 	"math"
 	"sync"
+	"image/png"
+	"os"
 
 	. "github.com/go-gl/mathgl/mgl64"
 )
@@ -13,9 +15,56 @@ import (
 const DIVISIONS int = 8
 const maxDepth = 5
 
+type Ray struct {
+	start, direction Vec3
+}
+
+type Intersection struct {
+	thing    Thing
+	ray      Ray
+	distance float64
+}
+
+type Thing interface {
+	intersect(Ray) (Intersection, bool)
+	normal(postion Vec3) Vec3
+	Surface() Surface
+}
+
+type Light struct {
+	position Vec3
+	color    Color
+}
+
 type PixelResult struct {
 	x, y  int
 	color Color
+}
+
+func RenderDefaultSceneToPNG(fileName string, size int) {
+	writer, err := os.Create("test.png")
+	if err != nil {
+		fmt.Println("Failed open file.")
+		return
+	}
+	defer writer.Close()
+
+	buffer := RenderDefaultSceneToBuffer(size)
+
+	i := buffer.SubImage(buffer.Bounds())
+	fmt.Println(buffer.Bounds())
+	png.Encode(writer, i)
+}
+
+func RenderDefaultSceneToBuffer(size int) *image.RGBA {
+
+	fmt.Println("Create image")
+
+	buffer := image.NewRGBA(image.Rect(0, 0, size, size))
+
+	renderToImage(DefaultScene(), buffer)
+
+	return buffer
 }
 
 func renderToImage(scene Scene, i *image.RGBA) {

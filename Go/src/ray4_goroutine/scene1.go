@@ -20,7 +20,7 @@ func DefaultScene() Scene {
 			Sphere{Vec3{0.0, 1.0, -0.25}, 1.0, shiny},
 			Sphere{Vec3{-1.0, 0.5, 1.5}, 0.25, shiny},
 			// Sphere{Vec3{0.5, 0.0, 5.0}, 0.04, checkerboard},
-			Sphere{Vec3{-5.5, 2.0, -5.0}, 4, checkerboard},
+			Sphere{Vec3{-5.5, 3.0, -5.0}, 4, checkerboard},
 		},
 		[]Light{
 			Light{Vec3{-2.0, 2.5, 0.0}, Color{0.49, 0.07, 0.07}},

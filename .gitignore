@@ -1,2 +1,6 @@
 Go/src/github.com/
 Go/src/golang.org/
+Go/bin
+Go/src/ray5_heroku_goroutine/vendor
+Old/
+*.exe
