@@ -1,9 +1,4 @@
 
-import * as fs from 'fs';
-
-const bmp = require('bmp-js');
-
-
 class Vector {
   constructor(public x: number,
     public y: number,
@@ -292,37 +287,30 @@ function defaultScene(): Scene {
   };
 }
 
-// function exec() {
-//   var canv = document.createElement("canvas");
-//   canv.width = 256;
-//   canv.height = 256;
-//   document.body.appendChild(canv);
-//   var ctx = canv.getContext("2d");
-//   if (ctx == null) { return; }
-//   var rayTracer = new RayTracer();
-//   return rayTracer.render(defaultScene(), ctx, canv.width, canv.height);
-// }
-// exec();
+function exec() {
+  const canv = <HTMLCanvasElement>document.querySelector("#ray-canvas");
+  const res = <HTMLSelectElement>document.querySelector('#ray-res');
+  const elapsed = <HTMLSpanElement>document.querySelector('#ray-elapsed')
+  let ctxMaybe = canv.getContext("2d");
+  if (ctxMaybe == null) { return; }
+  let ctx: CanvasRenderingContext2D = ctxMaybe;
+  let rayTracer = new RayTracer();
 
-function main() {
-  var width = 128;
-  var height = 128;
-
-  var rayTracer = new RayTracer();
-  // var img = ctx.createImageData(width, height);
-  var img = {
-    width: 128,
-    height: 128,
-    data: new Uint8ClampedArray(width * height * 4)
+  let renewRaytrace = () => {
+    const size: number = parseInt(res.value);
+    const start = performance.now();
+    const img = ctx.createImageData(size, size);
+    rayTracer.renderToImage(defaultScene(), img);
+    // rayTracer.render(defaultScene(), ctx, size, size);
+    createImageBitmap(img, 0, 0, size, size)
+      .then(img => ctx.drawImage(img, 0, 0, 512, 512));
+    let end = performance.now();
+    elapsed.textContent = (end - start).toString();
   };
 
-  rayTracer.renderToImage(defaultScene(), img);
-  var data = img.data;
-  for (var i = 0; i < data.length; i += 4) {
-    var r = data[i]; var g = data[i + 1]; var b = data[i + 2]; var a = data[i + 3];
-    data[i] = a; data[i + 1] = b; data[i + 2] = g; data[i + 3] = r;
-  }
+  res.addEventListener('change', renewRaytrace);
 
-  fs.writeFileSync('render.bmp', bmp.encode(img).data);
+  renewRaytrace();
 }
-main();
+
+exec();

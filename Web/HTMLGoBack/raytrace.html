@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Canvas sizing requires JS -->
+  <!-- max-width to prevent controls from being pushed past fold -->
+  <style >
+    img#ray-img {
+      width: 100%;
+      max-width: 80vh;
+      padding: 0;
+      margin: auto;
+      display: block;
+    }
+
+    textarea {
+      font-family: monospace;
+      min-height: 20rem;
+      width: 100% !important;
+      /* height: 700px !important; */
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <hr>
+
+    <div class="row">
+      <div class="col-md-6">
+        <!-- <canvas id="ray-canvas" ></canvas>  -->
+        <img id="ray-img" />
+
+      </div>
+      <div class="col-md-6 visible-md-inline visible-lg-inline">
+        <textarea id="ray-input" class="form-control" rows="30"></textarea>
+
+      </div>
+    </div>
+
+    <hr>
+    <div class="container">
+      <form class="form-inline">
+        <!-- <div class="form-group">
+          <label for="ray-scene">Scene</label>
+          <select id="ray-scene" class="form-control">
+            <option value="0">- User Input -</option>
+            <option value="1" selected="selected" >Default</option>
+            <option value="2">Scene 2</option>
+          </select>
+        </div> -->
+        <div class="form-group">
+          <label for="ray-res">Resolution</label>
+          <select id="ray-res" class="form-control">
+              <option value="128">128</option>
+              <option value="256">256</option>
+              <option value="384">384</option>
+              <option value="512">512</option>
+              <option value="1024">1024</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <button id="ray-elapsed" type="button" class="form-control btn btn-primary">Elapsed : #</button>
+        </div>
+        <div class="form-group">
+          <button id="ray-render" type="button" class="form-control btn btn-primary">Render</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <script src="raytrace.js"></script>
+</body>
+</html>
