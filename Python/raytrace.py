@@ -9,16 +9,9 @@ from vector import Vector
 # from surface import shiny, checkerboard
 from thing import Thing
 
+from ray_types import Ray, Intersection, Scene, Light
+
 MAX_DEPTH = 5
-
-# Types 
-
-Ray = namedtuple('Ray', 'start dir')
-
-Light = namedtuple('Light', 'pos color')
-
-Scene = namedtuple('Scene', 'things lights camera')
-
 
 class Camera():
     def __init__(self, position:Vector, lookAt:Vector):
