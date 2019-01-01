@@ -1,8 +1,9 @@
 import unittest
 from pprint import pprint
 from vector import Vector
-from raytrace import look_at
+from raytrace import Ray, look_at, intersections
 
+import scene_one
 
 class  TestCameraLookAt(unittest.TestCase):
     def check(self, a, b): 
@@ -27,8 +28,9 @@ class  TestCameraLookAt(unittest.TestCase):
         self.check(u, result.up)
 
 
-
-
+    def test_intersections(self):
+        res = intersections(Ray(start=Vector(5.0, 5.0, 5.0), dir=Vector(0, -1.0, 0)), scene_one.scene())
+        pprint(res)
 
 # ​forward: Object { x: -0.6834861261734088, y: -0.25630729731502827, z: -0.6834861261734088 }
 # ​pos: Object { x: 3, y: 2, z: 4 }

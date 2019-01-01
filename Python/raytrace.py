@@ -1,6 +1,9 @@
 from collections import namedtuple
 
+import color
 from vector import Vector
+
+import math
 
 Camera = namedtuple('Camera', 'forward right up')
 
@@ -14,4 +17,18 @@ def look_at(position:Vector, lookAt:Vector):
 Ray = namedtuple('Ray', 'start dir')
 Intersection = namedtuple('Intersection', 'thing ray distance')
 
-Thing = namedtuple('Thing', '')
+from surface import shiny, checkerboard
+
+Light = namedtuple('Light', 'pos color')
+
+Scene = namedtuple('Scene', 'things lights camera')
+
+def intersections(ray: Ray, scene: Scene):
+    closest = math.inf
+    closestInter = None
+    for t in scene.things:
+        inter = t.intersect(ray)
+        if inter != None and inter.distance < closest:
+            closestInter = inter
+            closest = inter.dist
+    return closestInter

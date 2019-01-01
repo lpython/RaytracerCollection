@@ -1,21 +1,18 @@
 import unittest
 from pprint import pprint
+import random
+
+import color
 from vector import Vector
-from surface import Surface, Shiny
+from surface import Surface, shiny, Checker, checkerboard
 
 class TestSurface(unittest.TestCase):
-  def test_surface_ABC(self):
-    try:
-      a = Surface() #E0110
-    except TypeError as t:
-      pass
-    except Exception as e:
-      self.fail('Unexpected exception raised:', e)
-    else:
-      self.fail('TypeError was not raised')
-
-  def test_surface_shiny(self):
-    a = Shiny()
-    # print(a.reflect)
-    # print(a.specular)
-    # print(a.diffuse)
+    def test_checker_diffuse_black(self):
+        res = Checker.diffuse(Vector(0.5, 0.5, random.randrange(-100000, 100000)))
+        for a,b in zip(res, color.black):
+            self.assertAlmostEqual(a,b)
+    
+    def test_checker_diffuse_white(self):
+        res = Checker.diffuse(Vector(1.5, 1.5, random.randrange(-100000, 100000)))
+        for a,b in zip(res, color.white):
+            self.assertAlmostEqual(a,b)
