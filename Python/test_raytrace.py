@@ -1,8 +1,8 @@
 import unittest
 from pprint import pprint
 from vector import Vector
-from raytrace import Ray, look_at, intersections
-
+from raytrace import Ray, Camera, intersections
+from thing import Plane
 import scene_one
 
 class  TestCameraLookAt(unittest.TestCase):
@@ -15,7 +15,7 @@ class  TestCameraLookAt(unittest.TestCase):
     def test_camera(self):
         # Move to setup/teardown, maybe
         position, lookAt = Vector(x=3.0, y=2.0, z=4.0), Vector(x=-1.0, y=0.5, z=0.0)
-        result = look_at(position, lookAt)
+        result = Camera(position, lookAt)
 
         # pprint(result)
 
@@ -29,8 +29,15 @@ class  TestCameraLookAt(unittest.TestCase):
 
 
     def test_intersections(self):
-        res = intersections(Ray(start=Vector(5.0, 5.0, 5.0), dir=Vector(0, -1.0, 0)), scene_one.scene())
-        pprint(res)
+        # This ray ...
+        ray = Ray(start=Vector(5.0, 5.0, 5.0), dir=Vector(0, -1.0, 0))
+        # and this scene ...
+        scene = scene_one.scene()
+        res = intersections(ray, scene)
+        # hits this Plane ...
+        self.assertIsInstance(res.thing, Plane)
+        # this far away.
+        self.assertAlmostEqual(res.distance, 5.0)
 
 # ​forward: Object { x: -0.6834861261734088, y: -0.25630729731502827, z: -0.6834861261734088 }
 # ​pos: Object { x: 3, y: 2, z: 4 }

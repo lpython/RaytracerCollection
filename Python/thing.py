@@ -47,7 +47,9 @@ class Sphere(Thing):
         v = eo & ray.dir
         dist = 0
         if v >= 0:
-            disc = self.radius2 - (eo & eo - v * v)
+            # print('[intersect] radius2:{} eo:{} v:{}'.format(
+            #     self.radius2, eo, v))
+            disc = self.radius2 - ((eo & eo) - v * v)
             if disc >= 0:
                 dist = v - math.sqrt(disc)
         if dist == 0:
