@@ -6,8 +6,8 @@ Color = namedtuple('Color', 'r g b')
 white = Color(1.0, 1.0, 1.0)
 grey = Color(0.5, 0.5, 0.5)
 black = Color(0.0, 0.0, 0.0)
-# background = Color.black
-# defaultColor = Color.black
+background = black
+defaultColor = black
 
 def scale(k: float, v: Color):
   return Color(k * v[0], k * v[1], k * v[2])

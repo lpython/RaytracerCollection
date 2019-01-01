@@ -2,6 +2,7 @@ import math
 from collections import namedtuple
 
 import color
+from color import Color
 from vector import Vector
 from surface import shiny, checkerboard
 
@@ -31,7 +32,7 @@ Light = namedtuple('Light', 'pos color')
 Scene = namedtuple('Scene', 'things lights camera')
 
 Intersection = namedtuple('Intersection', 'thing ray distance')
-def intersections(ray: Ray, scene: Scene):
+def intersections(ray: Ray, scene: Scene) -> Intersection:
     closest = math.inf
     closestInter = None
     for t in scene.things:
@@ -40,3 +41,19 @@ def intersections(ray: Ray, scene: Scene):
             closestInter = inter
             closest = inter.distance
     return closestInter
+
+def test_ray(ray: Ray, scene: Scene) -> float:
+    isect = intersections(ray, scene)
+    if isect:
+        return isect.distance
+    else:
+        return None
+
+def trace_ray(ray: Ray, scene: Scene, depth: int) -> Color:
+    isect = intersections(ray, scene)
+    if isect:
+        return color.background
+    else:
+        return shade(isect, scene, depth)
+
+def shade(a,b,c): pass
