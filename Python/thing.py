@@ -5,7 +5,7 @@ from abc import ABCMeta, abstractmethod
 from vector import Vector
 import color 
 from surface import Surface
-from raytrace import Ray, Intersection
+from ray_types import Ray, Intersection
 
 
 class Thing(metaclass=ABCMeta):

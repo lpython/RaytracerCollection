@@ -5,7 +5,7 @@ from collections import namedtuple
 import color 
 from vector import Vector
 
-Surface = namedtuple('Surface', 'diffuse specular reflect roughness')
+from ray_types import Surface
 
 shiny = Surface(diffuse=lambda n: color.white,
                 specular=lambda n: color.grey,

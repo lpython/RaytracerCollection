@@ -19,7 +19,7 @@ def times(v1: Color, v2: Color):
   return Color(v1.r * v2.r, v1.g * v2.g, v1.b * v2.b)
 
 def to_drawing_color(c: Color):
-  cap = lambda d: 1 if d > 1 else d
+  cap = lambda d: 1 if d > 1 else int(d)
 
   return dict(r = cap(c.r) * 255,
               g = cap(c.g) * 255,

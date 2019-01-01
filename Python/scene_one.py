@@ -1,4 +1,4 @@
-from raytrace import Scene, Camera, Light
+from ray_types import Scene, Camera, Light
 from thing import Plane, Sphere
 import surface
 from vector import Vector

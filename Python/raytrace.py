@@ -9,19 +9,11 @@ from vector import Vector
 # from surface import shiny, checkerboard
 from thing import Thing
 
-from ray_types import Ray, Intersection, Scene, Light
+from ray_types import Ray, Intersection, Scene, Light, Camera
 
 MAX_DEPTH = 5
 
-class Camera():
-    def __init__(self, position:Vector, lookAt:Vector):
-        down = Vector(0.0, -1.0, 0.0)
-        forward = (lookAt - position).normal()
-        right = 1.5 * (forward ** down).normal()
-        up = 1.5 * (forward ** right).normal()
-        self.forward, self.right, self.up = forward,right,up
 
-Intersection = namedtuple('Intersection', 'thing ray distance')
 def intersections(ray: Ray, scene: Scene) -> Intersection:
     closest = math.inf
     closestInter = None
@@ -73,7 +65,11 @@ def get_natural_color(thing: Thing, pos:Vector, norm: Vector, rd: Vector, scene:
             lcolor = color.default_color if illum < 0 else color.scale(illum, l.color)
             specular = livec & rd.normal()
             scolor = color.default_color if specular < 0 else color.scale(specular**thing.surface.roughness, l.color)
-            return c + (thing.surface.diffuse(pos) * lcolor + thing.surface.specular(pos) * scolor)
+            # print('[types] c:{} pos:{} lcolor:{} scolor:{}'.format(c,pos,lcolor, scolor))
+            inter1 = thing.surface.diffuse(pos) 
+            inter2 = thing.surface.specular(pos) 
+            # print('[types] inter1:{} inter2:{}'.format(inter1, inter2))
+            return c + (color.times(thing.surface.diffuse(pos) ,lcolor) + color.times(thing.surface.specular(pos), scolor))
 
     return reduce(add_light, scene.lights, color.default_color)
 
@@ -87,7 +83,7 @@ def render_to_image(scene: Scene, width, height, pixelOutput: Callable[[int, int
 
     for y in range(height):
         for x in range(width):
-            color = trace_ray(Ray(start=scene.camera.pos, dir=get_point(x, y, scene.camera)), scene, 0)
-            c = color.to_drawing_color(color)
+            c = trace_ray(Ray(start=scene.camera.pos, dir=get_point(x, y, scene.camera)), scene, 0)
+            pc = color.to_drawing_color(c)
 
-            pixelOutput(x, y, c)
+            pixelOutput(x, y, pc)
