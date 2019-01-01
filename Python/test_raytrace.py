@@ -3,9 +3,10 @@ from pprint import pprint
 
 from vector import Vector
 from thing import Plane
+import color
 import scene_one
 
-from raytrace import Ray, Camera, intersections, test_ray
+from raytrace import Ray, Camera, intersections, test_ray, trace_ray, MAX_DEPTH
 
 class  TestCameraLookAt(unittest.TestCase):
     def check(self, a, b): 
@@ -50,9 +51,13 @@ class  TestCameraLookAt(unittest.TestCase):
         # hits this far away.
         self.assertAlmostEqual(res, 5.0)
 
-# ​forward: Object { x: -0.6834861261734088, y: -0.25630729731502827, z: -0.6834861261734088 }
-# ​pos: Object { x: 3, y: 2, z: 4 }
-# ​right: Object { x: -1.0606601717798212, y: 0, z: 1.0606601717798212 }​
-# up: Object { x: -0.2718549419985796, y: 1.4498930239924248, z: -0.2718549419985796 }​
+    def test_trace_ray(self):
+        # This ray ...
+        ray = Ray(start=Vector(5.0, 5.0, 5.0), dir=Vector(0, 1.0, 0))
+        # and this scene ...
+        scene = scene_one.scene()
+        res = trace_ray(ray, scene, MAX_DEPTH)
+        # never hits.
+        self.assertIs(res, color.background)
 
 
