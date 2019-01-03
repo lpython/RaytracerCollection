@@ -81,14 +81,19 @@ def render_to_image(scene: Scene, width, height, pixelOutput: Callable[[int, int
     def get_point(x: float, y: float, camera:Camera):
         recenterX = lambda x: (x - (width / 2.0)) / 2.0 / width
         recenterY = lambda y: -(y - (height / 2.0)) / 2.0 / height
-        v = camera.forward * recenterX(x) + recenterY(y) * camera.up
+        v = camera.forward + ( recenterX(x) * camera.right + recenterY(y) * camera.up )
         # print('v=', v)
         return Vector.normal(v)
 
     for y in range(height):
         for x in range(width):
+            if x == 50 and y == 50:
+                a = 999
+                pass
             c = trace_ray(Ray(start=scene.camera.pos, dir=get_point(x, y, scene.camera)), scene, 0)
             pc = color.to_drawing_color(c)
-            print('c=',c)
-            print('pc=',pc)
+            if x == 50 and y == 50:
+                print('color=', pc)
+            # print('c=',c)
+            # print('pc=',pc)
             pixelOutput(x, y, pc)

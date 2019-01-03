@@ -29,9 +29,9 @@ def to_drawing_color(c: Color):
     v = n if n < 255 else 255
     return v if v >= 0 else 0
 
-  return dict(r = clamp(c.r * -255),
-              g = clamp(c.g * -255),
-              b = clamp(c.b * -255))
+  return dict(r = clamp(c.r * 255),
+              g = clamp(c.g * 255),
+              b = clamp(c.b * 255))
   # return dict(r = clamp(c.x * 255),
   #             g = clamp(c.y * 255),
   #             b = clamp(c.z * 255))

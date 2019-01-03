@@ -4,7 +4,7 @@ import scene_one
 
 from PIL import Image, ImageColor
 
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 2000, 2000
 
 
 image = Image.new("RGB", (WIDTH, HEIGHT))
