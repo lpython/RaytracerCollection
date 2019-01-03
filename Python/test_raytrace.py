@@ -6,9 +6,11 @@ from thing import Plane
 import color
 import scene_one
 
-from raytrace import Ray, Camera, intersections, test_ray, trace_ray, MAX_DEPTH
+from raytrace import  intersections, test_ray, trace_ray, get_reflection_color, MAX_DEPTH
 
-class  TestCameraLookAt(unittest.TestCase):
+from ray_types import Ray, Camera
+
+class  TestRayTrace(unittest.TestCase):
     def check(self, a, b): 
         # print('a:', a, 'b:', b)
         for c, d in zip(a, b):
@@ -60,4 +62,39 @@ class  TestCameraLookAt(unittest.TestCase):
         # never hits.
         self.assertIs(res, color.background)
 
+    def test_reflection_color(self):
+        scene = scene_one.scene()
+        input = {
+            "scene": scene, 
+            "thing": scene.things[1],
+            "pos": Vector(
+                x=0.9682536088805778,
+                y= 1.120726634856072,
+                z= -0.46888359583591654
+            ),
+            "normal": Vector(
+                x=0.9682536088805801,
+                y=0.12072663485607234,
+                z=-0.21888359583591707
+            ),
+            "rd": Vector(
+                x= 0.017881548532950597,
+                y=-0.12328111142237405,
+                z=-0.9922106720795377
+            ),
+            "depth": 0
+        }
+        res = get_reflection_color(**input)
 
+        output = color.Color(
+            r=0.15929183224593932,
+            g=0.1756515946612255,
+            b=0.1870300937260152
+        )
+
+        self.assertSequenceEqual(res, output)
+
+    # def test_get_point(self):
+    #     inputs =[{
+    #         x:
+    #     }]

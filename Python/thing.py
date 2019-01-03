@@ -67,8 +67,10 @@ class Plane(Thing):
         return self._normal
 
     def intersect(self, ray: Ray):
+        if isinstance(self._normal, float): print('_normal!')
+        if isinstance(ray.dir, float): print('ray.dir!')
         denom = self._normal & ray.dir
-        if denom > 0.0:
+        if denom >= 0.0:
             return None
         else:
             dist = ((self._normal & ray.start) + self.offset) / (-denom)

@@ -11,9 +11,10 @@ class  TestColorFunc(unittest.TestCase):
   
     def test_plus(self):
         c1 = Color(0.1, 0.1, 0.1)
-        result = plus(0.4, c1)
+        c2 = Color(0.1, 0.1, 0.1)
+        result = plus(c2, c1)
         for n in result:
-            self.assertAlmostEqual(n, 0.5)
+            self.assertAlmostEqual(n, 0.2)
     
     def test_times(self):
         c1 = Color(0.1, 0.1, 0.1)

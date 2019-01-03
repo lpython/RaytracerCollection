@@ -13,7 +13,6 @@ from ray_types import Ray, Intersection, Scene, Light, Camera
 
 MAX_DEPTH = 5
 
-
 def intersections(ray: Ray, scene: Scene) -> Intersection:
     closest = math.inf
     closestInter = None
@@ -42,11 +41,11 @@ def shade(isect: Intersection, scene: Scene, depth: int) -> Color:
     d = isect.ray.dir
     pos = isect.ray.start + d * isect.distance
     normal = isect.thing.normal(pos)
-    reflect_dir = d - 2 * normal * (normal & d)
-    natural_color = color.background - get_natural_color(isect.thing, pos, normal, reflect_dir, scene)
+    reflect_dir = d - 2 * (normal * (normal & d))
+    natural_color = color.plus( color.background,  get_natural_color(isect.thing, pos, normal, reflect_dir, scene) )
     reflected_color = ( color.grey if depth >= MAX_DEPTH else
         get_reflection_color(isect.thing, pos, normal, reflect_dir, scene, depth) )
-    return natural_color + reflected_color
+    return color.plus(natural_color, reflected_color)
 
 def get_reflection_color(thing: Thing, pos:Vector, normal:Vector, rd:Vector, scene:Scene, depth: int) -> Color:
     return color.scale(thing.surface.reflect(pos), 
@@ -54,6 +53,7 @@ def get_reflection_color(thing: Thing, pos:Vector, normal:Vector, rd:Vector, sce
 
 def get_natural_color(thing: Thing, pos:Vector, norm: Vector, rd: Vector, scene: Scene) -> Color:
     def add_light(c: Color, l: Light):
+        # print('c=',c)
         ldis = l.pos - pos
         livec = ldis.normal()
         neatIsect = test_ray(Ray(start=pos, dir=livec), scene)
@@ -66,12 +66,14 @@ def get_natural_color(thing: Thing, pos:Vector, norm: Vector, rd: Vector, scene:
             specular = livec & rd.normal()
             scolor = color.default_color if specular < 0 else color.scale(specular**thing.surface.roughness, l.color)
             # print('[types] c:{} pos:{} lcolor:{} scolor:{}'.format(c,pos,lcolor, scolor))
-            inter1 = thing.surface.diffuse(pos) 
-            inter2 = thing.surface.specular(pos) 
+            # inter1 = thing.surface.diffuse(pos) 
+            # inter2 = thing.surface.specular(pos) 
             # print('[types] inter1:{} inter2:{}'.format(inter1, inter2))
-            return c + (color.times(thing.surface.diffuse(pos) ,lcolor) + color.times(thing.surface.specular(pos), scolor))
+            return color.plus(c, (color.times(thing.surface.diffuse(pos) ,lcolor) + color.times(thing.surface.specular(pos), scolor)) )
 
-    return reduce(add_light, scene.lights, color.default_color)
+    res = reduce(add_light, iter(scene.lights), color.default_color)
+    # print('res=',res)
+    return res
 
 def render_to_image(scene: Scene, width, height, pixelOutput: Callable[[int, int, Color], None] ):
     '''pixelOutput called with color dict (rgb)'''
@@ -79,11 +81,14 @@ def render_to_image(scene: Scene, width, height, pixelOutput: Callable[[int, int
     def get_point(x: float, y: float, camera:Camera):
         recenterX = lambda x: (x - (width / 2.0)) / 2.0 / width
         recenterY = lambda y: -(y - (height / 2.0)) / 2.0 / height
-        return Vector.normal(camera.forward * recenterX(x) + recenterY(y) * camera.up)
+        v = camera.forward * recenterX(x) + recenterY(y) * camera.up
+        # print('v=', v)
+        return Vector.normal(v)
 
     for y in range(height):
         for x in range(width):
             c = trace_ray(Ray(start=scene.camera.pos, dir=get_point(x, y, scene.camera)), scene, 0)
             pc = color.to_drawing_color(c)
-
+            print('c=',c)
+            print('pc=',pc)
             pixelOutput(x, y, pc)

@@ -1,3 +1,5 @@
+import math
+
 class Vector:
 	x = 0
 	y = 0
@@ -42,8 +44,8 @@ class Vector:
 	# cross = a ** b
 	def __pow__(self, operand):
 		return Vector(self.y*operand.z - self.z*operand.y, 
-			                self.z*operand.x - self.x*operand.z, 
-			                self.z*operand.y - self.y*operand.x)
+									self.z*operand.x - self.x*operand.z, 
+									self.x*operand.y - self.y*operand.x)
 
 	# Dot Project
 	# dp = a & b
@@ -55,7 +57,11 @@ class Vector:
 	# Operations
 
 	def normal(self):
-		return self.__copy().__div__(self.magnitude())
+		mag = self.magnitude()
+		# if math.isclose(0, mag): return math.inf
+		div = math.inf if mag == 0 else 1.0 / mag
+		return Vector.__mul__(self, div)
+		# return self.__copy().__div__(self.magnitude())
 
 	def magnitude(self):
 		return (self.x**2 + self.y**2 + self.z**2)**(.5)
